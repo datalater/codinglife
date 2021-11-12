@@ -4,7 +4,7 @@ import {
   setTasks,
 } from './actions';
 
-import tasks from '../fixtures/tasks';
+import tasks from '../../fixtures/tasks';
 
 describe('reducer', () => {
   describe('setTasks', () => {

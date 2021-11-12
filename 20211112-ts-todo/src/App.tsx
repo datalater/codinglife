@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 import {
   setTasks,
-} from './actions';
+} from './store/actions';
 
 import ListContainer from './components/ListContainer';
 

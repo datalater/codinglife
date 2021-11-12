@@ -13,7 +13,7 @@ describe('App', () => {
   (useDispatch as jest.Mock).mockImplementation(() => dispatch);
 
   (useSelector as jest.Mock)
-    .mockImplementation((selector: any) => selector({
+    .mockImplementation((selector) => selector({
       tasks,
     }));
 

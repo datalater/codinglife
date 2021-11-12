@@ -9,10 +9,9 @@ import tasks from '../../fixtures/tasks';
 jest.mock('react-redux');
 
 describe('ListContainer', () => {
-  (useSelector as jest.Mock<typeof useSelector>)
-    .mockImplementation((selector: any) => selector({
-      tasks,
-    }));
+  (useSelector as jest.Mock).mockImplementation((selector) => selector({
+    tasks,
+  }));
 
   it('renders tasks', () => {
     const { container } = render((

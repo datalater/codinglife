@@ -269,7 +269,7 @@ export const useSelector = jest.fn();
 jest.mock('react-redux');
 
 describe('ListContainer', () => {
-  (useSelector as jest.Mock<typeof useSelector>).mockImplementation((selector: any) => selector({
+  (useSelector as jest.Mock).mockImplementation((selector) => selector({
     tasks: [
       { id: '1', title: '자바스크립트 학습' },
       { id: '2', title: '타입스크립트 학습' },
@@ -302,10 +302,9 @@ import tasks from '../../fixtures/tasks';
 jest.mock('react-redux');
 
 describe('ListContainer', () => {
-  (useSelector as jest.Mock<typeof useSelector>)
-    .mockImplementation((selector: any) => selector({
-      tasks,
-    }));
+  (useSelector as jest.Mock).mockImplementation((selector) => selector({
+    tasks,
+  }));
 
   it('renders tasks', () => {
     const { container } = render((
@@ -362,10 +361,9 @@ import tasks from '../fixtures/tasks';
 jest.mock('react-redux');
 
 describe('App', () => {
-  (useSelector as jest.Mock<typeof useSelector>)
-    .mockImplementation((selector: any) => selector({
-      tasks,
-    }));
+  (useSelector as jest.Mock).mockImplementation((selector) => selector({
+    tasks,
+  }));
 
   it('renders title', () => {
     const { container } = render((
@@ -388,8 +386,8 @@ describe('App', () => {
 실제로 상태를 가져올 수 있도록 스토어 구현하기
 
 ```tsx
-초기에 스토어에 있는 상태 자체를 App 컴포넌트가 그려줄 때 가져오도록 해야 한다
-
+RED
+// 초기에 스토어에 있는 상태 자체를 App 컴포넌트가 그려줄 때 가져오도록 해야 한다
 // 어떻게 가져올 것인지 코드를 사용하는 쪽에서 스펙을 먼저 확정해준다.
 export default function App() {
   useEffect(() => {
@@ -404,6 +402,7 @@ export default function App() {
   );
 }
 
+RED
 // 고정물, 디스패치에 전달할 액션 크리에이터 함수 등 필요한 것을 넣어준다.
 import { useEffect } from 'react';
 
@@ -431,11 +430,13 @@ export default function App() {
     </AppContainer>
   );
 }
+```
 
+```tsx
 RED
 // actions가 구현되지 않아 테스트가 터진 것을 통과시켜준다.
 // actions는 비동기 액션이 아닌 경우에는 너무 명확해서 테스트를 짜지 않고 바로 만들어준다.
-// actions.js
+// store/actions.ts
 export function setTasks(tasks) {
   return {
     type: 'setTasks',
@@ -446,9 +447,43 @@ export function setTasks(tasks) {
 }
 
 export default {};
+```
 
+```tsx
 RED
-// App에서 쓰느 dispatch가 실제로 동작하지 않아 테스트가 터진다.
+// store/types.ts
+export interface Task {
+  id: string;
+  title: string;
+}
+
+export type ActionType = 'setTasks'
+
+export type Action = {
+  type: ActionType,
+  payload: {
+    tasks: Task[]
+  }
+}
+
+// store/actions.ts
+import { Action, Task } from './types';
+
+export function setTasks(tasks: Task[]): Action {
+  return {
+    type: 'setTasks',
+    payload: {
+      tasks,
+    },
+  };
+}
+
+export default {};
+```
+
+```tsx
+RED
+// App에서 쓰는 dispatch가 실제로 동작하지 않아 테스트가 터진다.
 // 이걸 통과시키기 위해서 일단 리듀서를 먼저 구현한다. => 리듀서 테스트 작성.
 import reducer from './reducer';
 
@@ -456,7 +491,7 @@ import {
   setTasks,
 } from './actions';
 
-import tasks from '../fixtures/tasks';
+import tasks from '../../fixtures/tasks';
 
 describe('reducer', () => {
   describe('setTasks', () => {
@@ -472,17 +507,18 @@ describe('reducer', () => {
 
 GREEN
 // reducer 테스트를 통과시키기 위해 reducer를 만들어준다
+import { Action, Task } from './types';
+
 const initialState = {
-  tasks: [],
+  tasks: [] as Task[],
 };
 
 export default function reducer(
-  // eslint-disable-next-line default-param-last
   state = initialState,
-  action: any,
-): any {
-  if (action.type === 'setTasks') {
-    const { tasks } = action.payload;
+  { type, payload }: Action = {} as Action,
+): { tasks: Task[] } {
+  if (type === 'setTasks') {
+    const { tasks } = payload;
 
     return {
       ...state,
@@ -492,7 +528,6 @@ export default function reducer(
 
   return state;
 }
-
 
 GREEN
 // dispatch를 가짜 구현해서 App 테스트 통과시킨다
@@ -508,10 +543,9 @@ describe('App', () => {
   const dispatch = jest.fn();
   (useDispatch as jest.Mock).mockImplementation(() => dispatch);
 
-  (useSelector as jest.Mock)
-    .mockImplementation((selector: any) => selector({
-      tasks,
-    }));
+  (useSelector as jest.Mock).mockImplementation((selector: any) => selector({
+    tasks,
+  }));
 
   it('renders title', () => {
     const { container } = render((
