@@ -595,6 +595,12 @@ const store = createStore(reducer);
 export default store;
 ```
 
+## createStore(reducer) vs combinedReducers({ reducer })
+
+스토어를 만들 때 `createStore(reducer)`와 `combinedReducers({ reducer })`의 차이점:
+
+- createStore는 내부 코드를 보면 action에 대한 타입이 Action 그대로 있어야 한다.
+- 반면에 combinedReducers는 action에 대한 타입이 any로 되어있다.
 ## @RESUME 테스트 코드 작성하기: 3부
 
 BDD를 고려하여 List 컴포넌트 고도화하기: https://youtu.be/L1dtkLeIz-M?t=1468
