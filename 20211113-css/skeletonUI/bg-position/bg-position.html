@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @keyframes loading {
+        to {
+          background-position: 300px 0, 0 0;
+        }
+      }
+
+      .poster {
+        width: 300px;
+        height: 200px;
+        cursor: progress;
+        background: linear-gradient(0.25turn, transparent, #fff, transparent),
+          linear-gradient(to right, #eee, #eee);
+        background-repeat: no-repeat;
+        background-size: 300px 200px, 300px 200px;
+        background-position: -300px 0, 0 0;
+        animation: loading 1.5s infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="skeletons">
+        <div class="skeleton poster"></div>
+      </div>
+    </div>
+  </body>
+</html>
