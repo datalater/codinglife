@@ -1,3 +1,6 @@
 [submodule "20211119-refactor-switch"]
 	path = 20211119-refactor-switch
 	url = git@github.com:datalater/refactor-switch.git
+[submodule "search-lang"]
+	path = search-lang
+	url = git@github.com:datalater/search-lang.git
