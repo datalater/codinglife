@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+      .orange {
+        color: orange;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section class="counter">
+        <h1>카운터 만들기: v-bind, v-on</h1>
+        <div :class="active && value">{{ message }} {{ count }}</div>
+        <div :class="{ orange: active }">{{ message }} {{ count }}</div>
+        <button @click="handleIncreaseClick">Increase</button>
+      </section>
+      <hr />
+      <section class="if toggle">
+        <h1>토글 버튼 만들기: v-if</h1>
+        <button @click="handleToggleClick">Toggle</button>
+        <div v-if="active">{{ message }} {{ count }}</div>
+      </section>
+      <hr />
+      <section class="loop">
+        <h1>엘리먼트 반복하기: v-for</h1>
+        <ul>
+          <li v-for="item in members">{{ item }}</li>
+        </ul>
+      </section>
+      <hr />
+      <section class="component">
+        <h1>자식 컴포넌트 추가하기: components({ template, props })</h1>
+        <h2>데브니티 팀원:</h2>
+        <ul>
+          <template v-for="item in members">
+            <member :name="item" />
+          </template>
+        </ul>
+        <ul>
+          <member v-for="item in members" :name="item" />
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      const Member = {
+        template: "<li>{{ name }}</li>",
+        props: ["name"],
+      };
+
+      Vue.createApp({
+        components: {
+          Member,
+        },
+        data() {
+          return {
+            message: "Hello Vue!",
+            count: 0,
+            members: ["ab", "bbungchi", "cheo"],
+            active: true,
+            value: "orange",
+          };
+        },
+        methods: {
+          handleIncreaseClick() {
+            this.count++;
+          },
+
+          handleToggleClick() {
+            this.active = !this.active;
+          },
+        },
+      }).mount("#app");
+
+      console.log(true && "orange");
+    </script>
+  </body>
+</html>
