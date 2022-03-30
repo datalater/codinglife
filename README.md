@@ -13,7 +13,8 @@ find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 ```bash
 rsync -av --progress <source/> <dest> --exclude .git --exclude node_modules --exclude practice
 
-# source/ 처럼 뒤에 trailling slash가 붙어야 동일한 내용으로 디렉토리 이름만 바꿔서 복사한다.
+# source/ 처럼 뒤에 /를 붙이면 source 폴더 내부에 있는 파일들을 복사하고
+# source 처럼 뒤에 /를 붙이지 않으면 디렉토리를 통째로 복사한다
 # -a: recursively
 # -v: verbose
 ```
